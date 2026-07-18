@@ -1,0 +1,38 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment
+.env
+
+# PostgreSQL
+postgres_data/
+pgdata/
+
+# Logs
+logs/
+*.log
+
+# Data
+*.csv
+*.parquet
+*.excel
+*.txt
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
