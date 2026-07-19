@@ -1,0 +1,178 @@
+version: 2
+
+models:
+  - name: stg_orders
+
+    description: "Tabela de staging contendo os pedidos padronizados, deduplicados e tipados provenientes da camada Bronze."
+
+    columns:
+
+      - name: order_id
+        description: "identificador unico do pedido"
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: "Identificador do cliente"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customer')
+                field: customer_id
+
+      - name: order_status
+        description: "Status atual dos pedidos"
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - delivered
+                  - shipped
+                  - canceled
+                  - invoiced
+                  - approved
+                  - unavailable
+                  - processing
+                  - created
+
+      - name: purchase_timestamp
+        description: "Data da realização do pedido"
+        tests:
+          - not_null
+
+  - name: stg_orders_items
+
+    description: "Tabela de staging contendo os itens em pedidos padronizados, deduplicados e tipados provenientes da camada Bronze."
+
+    columns:
+
+      - name: order_id
+        description: "identificador unico do pedido"
+        tests:
+          - not_null
+          - relationships:
+              arguments:          
+                to: ref('stg_orders')
+                field: order_id
+
+      - name: order_item_id
+        description: "identificador do item no pedido"
+        tests:
+          - not_null
+
+      - name: product_id
+        description: "identificador do produto"
+        tests:
+          - not_null
+          - relationships:
+              arguments:          
+                to: ref('stg_products')
+                field: product_id
+          
+      - name: seller_id
+        description: "identificador do vendedor"
+        tests:
+          - not_null
+          - relationships:
+              arguments:          
+                to: ref('stg_sellers')
+                field: seller_id        
+  
+      - name: shipping_limit_date
+        description: "Data limite para envio do pedido"
+        tests:
+          - not_null
+        
+      - name: price
+        description: "Preço do produto unitario do pedido"
+        tests:
+          - not_null
+
+      - name: freight_value
+        description: "Preço do frete, calculado pelas dimensões do produto"
+        tests:
+          - not_null          
+
+  - name: stg_orders_payments
+
+    description: "Tabela de staging contendo os meios de pagamento dos pedidos padronizados, deduplicados e tipados provenientes da camada Bronze."
+
+    columns:
+
+      - name: order_id
+        description: "identificador unico do pedido"
+        tests:
+          - not_null
+          - relationships:
+              arguments:          
+                to: ref('stg_orders')
+                field: order_id
+    
+      - name: payment_sequential
+        description: "Sequancia de pagamento, caso seja feito em mais de um meio"
+        tests:
+          - not_null 
+
+      - name: payment_type
+        description: "Tipo de pagamento"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:          
+                values:
+                  - not_defined
+                  - boleto
+                  - debit_card
+                  - voucher
+                  - credit_card 
+
+      - name: payment_installments
+        description: "Quantidade de parcelas "
+        tests:
+          - not_null                     
+
+      - name: payment_value
+        description: "Valor do pagamento por tipo de pagamento"
+        tests:
+          - not_null   
+          
+
+  - name: stg_orders_review
+
+    description: "Tabela de staging contendo as avaliações dos pedidos padronizados, deduplicados e tipados provenientes da camada Bronze."
+
+    columns:
+
+      - name: review_id
+        description: "identificador de avaliação"
+        tests:
+          - not_null
+    
+      - name: order_id
+        description: "identificador unico do pedido"
+        tests:
+          - not_null
+          - relationships:
+              arguments:          
+                to: ref('stg_orders')
+                field: order_id   
+     
+      - name: review_score
+        description: "Nota de 1 a 5 de avaliação do pedido"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:          
+                values: [1,2,3,4,5]
+
+      - name: review_creation_date
+        description: "Data de criação da avaliação"
+        tests:
+          - not_null      
+
+      - name: review_answer_timestamp
+        description: "Data de resposta da avaliação"
+        tests:
+          - not_null                

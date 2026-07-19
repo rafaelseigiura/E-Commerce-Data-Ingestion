@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stg_geolocation
+
+    description: "Dados de geolocalização com colunas tratadas, padronizadas e remoção de duplicados"
+
+    columns:
+
+      - name: zip_code_prefix
+        description: "CEP"
+        tests:
+          - not_null
+
+      - name: lat
+        description: "Latitude"
+        tests:
+          - not_null
+
+      - name: long
+        description: "Longitude"
+        tests:
+          - not_null
+
+      - name: city
+        description: "Cidade"
+        tests:
+          - not_null
+
+      - name: state
+        description: "Estado"
+        tests:
+          - not_null

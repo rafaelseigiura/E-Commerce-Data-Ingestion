@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_sellers
+
+    description: "Tabela de staging contendo os vendedores padronizados, deduplicados e tipados provenientes da camada Bronze."
+
+    columns:
+
+      - name: seller_id
+        description: "identificador unico do vendedor"
+        tests:
+          - not_null
+          - unique
+
+      - name: zip_code_prefix
+        description: "CEP"
+        tests:
+          - not_null
+
+      - name: city
+        description: "Cidade"
+        tests:
+          - not_null
+
+      - name: state
+        description: "Estado"
+        tests:
+          - not_null

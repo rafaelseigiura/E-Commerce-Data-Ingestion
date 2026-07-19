@@ -11,7 +11,8 @@ models:
         description: "ID do cliente em um pedido "
         tests:
           - not_null
-      
+          - unique
+
       - name: customer_unique_id
         description: "ID único do cliente no marketplace"
 
