@@ -1,0 +1,42 @@
+models:
+
+  - name: int_product
+    description: "Dados de produtos enriquecidos com a tradução das categorias e métricas derivadas de volume."
+
+    columns:
+
+      - name: product_id
+        description: "Identificador único do produto."
+        tests:
+          - not_null
+          - unique
+
+      - name: product_category_name
+        description: "Categoria do produto em português."
+
+      - name: product_category_name_english
+        description: "Categoria do produto traduzida para o inglês."
+
+      - name: product_name_length
+        description: "Quantidade de caracteres no nome do produto."
+
+      - name: product_description_length
+        description: "Quantidade de caracteres na descrição do produto."
+
+      - name: product_photos_qty
+        description: "Quantidade de fotos associadas ao produto."
+
+      - name: product_weight_g
+        description: "Peso do produto em gramas."
+
+      - name: product_length_cm
+        description: "Comprimento do produto em centímetros."
+
+      - name: product_height_cm
+        description: "Altura do produto em centímetros."
+
+      - name: product_width_cm
+        description: "Largura do produto em centímetros."
+
+      - name: product_volume_litros
+        description: "Volume do produto em litros, calculado a partir das dimensões."

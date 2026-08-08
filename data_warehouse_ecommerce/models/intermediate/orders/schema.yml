@@ -1,0 +1,119 @@
+version: 2
+
+models:
+  - name: int_orders
+
+    description: "Dados de pedidos consolidados na granularidade de pedidos único, com informações padronizadas e tratadas"
+
+    columns:
+
+      - name: order_id
+        description: "ID do pedido unico"
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: "ID do cliente no pedido"
+
+        tests:
+          - not_null
+
+      - name: customer_unique_id
+        description: "ID unico do cliente"
+
+        tests:
+          - not_null
+
+      - name: order_status
+        description: "Status atual dos pedidos"
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - delivered
+                  - shipped
+                  - canceled
+                  - invoiced
+                  - approved
+                  - unavailable
+                  - processing
+                  - created
+
+      - name: qtd_itens
+        description: "Quantidade total de itens associados ao pedido."
+
+      - name: valor_total
+        description: "Valor total dos produtos associados ao pedido."
+
+      - name: frete_total
+        description: "Valor total do frete associado ao pedido."
+
+      - name: dias_atraso
+        description: "Quantidade de dias de atraso na entrega em relação à data estimada."
+                          
+
+  - name: int_orders_items
+    description: "Dados consolidados dos itens dos pedidos, com informações de produto, quantidade, peso, volume, valor e frete."
+
+    columns:
+
+      - name: order_id
+        description: "Identificador do pedido ao qual o item pertence."
+        tests:
+          - not_null
+
+      - name: product_id
+        description: "Identificador do produto associado ao pedido."
+        tests:
+          - not_null
+
+      - name: product_category_name
+        description: "Categoria do produto."
+
+      - name: qtd_itens
+        description: "Quantidade de itens do mesmo produto dentro do pedido."
+
+      - name: peso_total_g
+        description: "Peso total dos itens do produto dentro do pedido, em gramas."
+
+      - name: volume_total_litros
+        description: "Volume total dos itens do produto dentro do pedido, em litros."
+      
+      - name: valor_total
+        description: "Valor total dos itens do produto dentro do pedido."
+
+      - name: frete_total
+        description: "Valor total do frete dos itens do produto dentro do pedido."
+
+  - name: int_orders_review
+    description: "Dados de avaliações dos pedidos, com informações da avaliação, comentários tratados e indicador de tempo de resposta."
+
+    columns:
+
+      - name: review_id
+        description: "Identificador da avaliação."
+      - name: order_id
+        description: "Identificador do pedido associado à avaliação."
+        tests:
+          - not_null
+      - name: review_score
+        description: "Nota atribuída pelo cliente à avaliação."
+
+      - name: has_comment
+        description: "Indicador que identifica se a avaliação possui comentário."
+
+      - name: comment_length
+        description: "Quantidade de caracteres presentes no comentário da avaliação."
+
+      - name: review_comment_title
+        description: "Título informado pelo cliente na avaliação."
+
+      - name: review_comment_message
+        description: "Comentário original informado pelo cliente."
+
+      - name: review_comment_message_clean
+        description: "Comentário tratado e padronizado para utilização em análises."
+
+      - name: dias_respostas
+        description: "Quantidade de dias entre a criação da avaliação e sua resposta."

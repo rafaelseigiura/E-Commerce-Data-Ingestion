@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: int_customers
+
+    description: "Dados de clientes consolidados na granularidade de clientes único, com informações padronizadas e tratadas. Quando um cliente possui múltiplos registros de localização, utilizo o primeiro registro determinado pelo customer_id."
+
+    columns:
+
+      - name: customer_unique_id
+        description: "ID do cliente unico no marletplace"
+        tests:
+          - not_null
+          - unique
+
+      - name: city
+        description: "Cidade do cliente"
+
+        tests:
+          - not_null
+
+      - name: state
+        description: "Estado do cliente"
+
+        tests:
+          - not_null
